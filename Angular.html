@@ -1,0 +1,40 @@
+<html>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js">
+</script>
+
+<body ng-app="myApp" ng-controller="familyCtrl">
+ 
+<h2>My Family History List</h2>
+	<form ng-submit="familyAdd()">
+    		<input type="text" ng-model="familyInput1" size="20" placeholder="Person">
+		<input type="text" ng-model="familyInput2" size="20" placeholder="Father">
+		<input type="text" ng-model="familyInput3" size="20" placeholder="Mother">
+    		<input type="submit" value="Add New">
+	</form>
+	<br>
+<div ng-repeat="x in familyList">
+	<input type="checkbox" ng-model="x.done"> <span ng-bind="x.familyText"></span>
+</div>
+
+<p><button ng-click="remove()">Remove marked</button></p>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('familyCtrl', function($scope) {
+	$scope.familyAdd = function() {
+       		$scope.familyList.push({familyText:$scope.familyInput1 + ", " + $scope.familyInput2 + ", " + $scope.familyInput3, done:false});
+        	$scope.familyInput1 = "";
+		$scope.familyInput2 = "";
+		$scope.familyInput3 = "";
+   	 };
+	$scope.remove = function() {
+    		var oldList = $scope.familyList;
+        	$scope.familyList = [];
+        	angular.forEach(oldList, function(x) {
+            		if (!x.done) $scope.familyList.push(x);
+        });
+    };
+});
+</script>
+</body>
+</html>
